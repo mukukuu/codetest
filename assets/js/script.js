@@ -145,4 +145,50 @@ e.stopPropagation();
 }
 }
 
+//----------------------function to get to next question
+function nextQuest(){
+//  remove previous multiple choise answer
+resetQuestions()
+
+let qi = 1;
+
+// keeps track of what question user is on.
+questionState(qi)
+
+$(questionPrompt).text(randQuestions[questionIndex].question);
+
+ questions[questionIndex].options.forEach(ans => {
+
+// create a new button element for each loop 
+let button = $("<button>")
+
+// create unique id option button
+let buttonId = uniqueId(ans);
+// add button bootstrap classes 
+   $(button).addClass('btn btn-outline-dark btn-block chosen');
+
+// give button a unique id 
+   $(button).attr("id", buttonId);
+
+// add answer text to button
+        
+   $(button).text(ans);
+
+// append button to answer-button div area
+   $("#answer-buttons").append(button);
+    })
+// call prevAnsStyle to check if question has already been aswered
+    prevAnsStyle()
+   if(questionIndex == 1) {
+     $(prevButton).removeClass('hide');
+
+    }
+// adding hide class to the next button 
+    if(questionIndex > 3) {
+        $(nextButton).addClass('hide');
+        $(submitButton).removeClass('hide');
+    }
+}
+
+
 
