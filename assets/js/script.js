@@ -1,24 +1,40 @@
 
-var timeEl = document.getElementById("#timer");
-var takequizbtn = document.getElementById("#start-btn");
-var startpageEl = document.querySelector("#startpage");
-var quizpage = document.querySelector("#quizpage");
 
-var scores = 0;
-var questionNow = -1;
-var timer;
-var timeremain = 0;
+var userAnswers = ["","","","",""];
+var Correctanswer = 0;
+var userScore = "";
+var questionIndex = 0;
+//----------timer
+var timerInit = 0;
+var timeLeft = 120;
 
-//----------questions
+var questionPrompt = $('#question-prompt');
+var ansContainEl = $('#answer-buttons');
 
-var question = document.getElementById("question");
-var choices = document.getElementById("choices");
-var choice1 = document.getElementById("1");
-var choice2 = document.getElementById("2");
-var choice3 = document.getElementById("3");
-var choice4= document.getElementById("4");
+//---------btns
+var startButton = $('#start-btn');
+var prevButton = $('#prev-btn');
+var nextButton = $('#next-btn');
+var submitButton = $('#submit-btn');
 
 
+//----------questions options btns
+$(ansContainEl).on('click',selectAns)
+
+// start button 
+$(startButton).on('click',startQuiz)
+
+// next button 
+$(nextButton).on('click',nextQuest)
+
+// prev button 
+$(prevButton).on('click',prevQuest)
+
+// submit button 
+$(submitButton).on('click',results)
+
+
+//------question array
 var questions = [ 
     /* question 1 */
     {
@@ -61,27 +77,95 @@ var questions = [
         options: ["variable", "variable function", "storage", "var input"],
         answer: "variable"
        }
-        
 ];
 
 
+//---------------------------startQuiz function
+function startQuiz(){
+    starTimer = 1;
+    randQuestions = shuffle(questions);
+    $(startButton).addClass('hide');
+    $(questionPrompt).text(randQuestions[questionIndex].question);
 
-//star timer----------------------------
-var start = function() {
-    quiztime = 80;
-   document.getElementById("timer").innerHTML = quiztime;
+    questions[questionIndex].options.forEach(ans => {
 
-    timer = setInterval(function() {
-        quiztime--;
-    document.getElementById("#timer").innerHTML = quiztime;
-        if(quiztime <= 0) {
-            clearInterval(timer);
-            // endQuiz();
-        }
-    }, 1000);
-    // nextQuestion();
-  
+        let button = $("<button>")
+
+        // create unique id to assign to each multiple choise option button
+        let buttonId = uniqueId(ans);
+
+        // button appearance using bootstrap
+        $(button).addClass('btn btn-outline-dark btn-block chosen');
+
+        // give each button a unique id using the answer it represents
+        $(button).attr("id", buttonId);
+
+        // add answer text to button
+        $(button).text(ans);
+
+        // append button to answer-button div area
+        $("#answer-buttons").append(button);
+    })
+
+    // removing hide class to show first quiz question answers in answer field
+    $(ansContainEl).removeClass('hide');
+
+    // removing hide class 
+    $(nextButton).removeClass('hide');
 }
 
-timeEl.addEventListener("submit",start);
+
+
+function selectAns(e){
+ // select unanswered questions
+if(userAnswers[questionIndex] === "") {
+
+if(e.target !== e.currentTarget) {
+
+// store answer in userAnswer array
+userAnswers.splice(questionIndex, 1, e.target.textContent);
+let ansId = uniqueId(questions[questionIndex].answer);
+// compare the target button id with the correct id
+if(e.target.id == ansId) {
+
+// if the answer is correct show green styling
+$('#'+e.target.id).addClass('btn-success');
+$('#'+e.target.id).removeClass('btn-outline-dark');
+ userCorrect++;
+ }else{
+// if the answer is incorrect, then show red styling
+$('#'+e.target.id).addClass('btn-danger'); 
+$('#'+e.target.id).removeClass('btn-outline-dark');
+
+// minus 30 seconds off the clock
+    secondsLeft -= 30;
+}
+}
+e.stopPropagation();
+}
+}
+
+
+//--------- next question function
+
+
+
+// //star timer----------------------------
+// var start = function() {
+//     quiztime = 80;
+//    document.getElementById("timer").innerHTML = quiztime;
+
+//     timer = setInterval(function() {
+//         quiztime--;
+//     document.getElementById("#timer").innerHTML = quiztime;
+//         if(quiztime <= 0) {
+//             clearInterval(timer);
+//             // endQuiz();
+//         }
+//     }, 1000);
+//     // nextQuestion();
+  
+// }
+
+// timeEl.addEventListener("submit",start);
 

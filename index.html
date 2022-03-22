@@ -1,87 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--css-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/css/style.css" />
- 
+
 </head>
 
 <body>
     <!------------------------header show scores and time--------------------->
     <header id="header">
-        <div class="timer-display">
-         <h2>Timer:<span id="timer"></span></h2> 
+
+        <div>
+            <label id="label">Timer</label>
+            <input type="text" id="display" style="text-align:center;" maxlength="4" size="4" readonly />
         </div>
+
         <!--show score btn-->
         <div class="score-display" id="scores">
             <button id="show-score" type="button">View High Scores</button>
         </div>
-        
+
     </header>
 
-    <!----------------------------MAIN------------------------->
+
     <main>
+        <!-----------------------start quiz section------------->
+        <section class="container my-container disable-dbl-tap-zoom">
+            <div class="col-md-12 wrapper">
 
-    <!-----------------------start quiz section------------->
-    <section class="quizblock" id="startpage">
-       <h2>Code Quiz</h2>
-       <p class="ptext">This quiz contains random questions from past modules, please answer all question to avoid penalty, and pay attention to timer.</p>
-       <!--button to start quizz-->
-       <button type="submit" id="start-btn"> Take quiz </button>
-    </section>
+                <div class="card mt-2">
 
-    <!---------------------------questions-------------->
-    <section  id="quizpage">
-        <h2 class="title" id="question">
-            Start Quiz
-        </h2>
-        <label>Click to start</label>
-        <button  id="start-quiz">Start</button>
+                    <div class="card-body" id="quiz-container">
 
-    </section>
+                        <!-- question content -->
+                        <div class="card-title" id="question-prompt">
+                            You habe 60 seconds to complete the quiz.
+                        </div>
 
-       <!----------------show after quiz-------------->
-<section class="highscore" id="scores">
-     <!-- user input for initials and then submit-->
-     <div class="userinput" id="inputs">
-         <h2>Quiz End</h2>
-          <p class="font"> Your Score is: <span id="score"></span></p>
-          <p class="font">
-           Enter initials <input placeholder="initials" type="text" id="initials">
-          <!--submit btn-->
-          <button type="button" class="Sbtn" id="submit">submit</button>
-          </p>
-    </div>
+                        <div class="line">
+                            <div>
+                                <br />
 
-    <!----show high scores and btns to return and clear----->
-     <div>
-          <h2 class="title">HighScores</h2>
-          <div class="hscore" id="HighScores">
-          <!--generate by js-->
-            <ol id="score-list">
+                                <div id="answer-buttons" class="hide">
 
-            </ol>
-          </div> 
-          <!--return btn-->
-          <botton type="button" class="Sbtn" id="return">return</botton>
-          <!--Clear Scores btn-->
-          <button type="button" class="Sbtn" id="clear">clear</button>        
-    </div>
- </section>
-        
+                                    <!-- answer field -->
+
+                                </div>
+
+                                <!-- quiz controls -->
+                                <div class="controls">
+                                    <button type="button" id="start-btn" class="start-btn btn btn-lg btn-outline-dark">Start</button>
+                                    <button type="button" id="prev-btn" class="prev-btn btn btn-lg btn-outline-dark hide">Prev</button>
+                                    <button type="button" id="next-btn" class="next-btn btn btn-lg btn-outline-dark hide">Next</button>
+                                    <button type="button" id="submit-btn" class="submit-btn btn btn-lg btn-outline-dark hide">Submit</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+        </section>
+
     </main>
-       
 
 
-   <!--java-->
-   
-  
-   
-    <script src="./assets/js/questions.js"></script>
+    <footer class="footer mt-auto bg-dark">
+        <div class="container">
+            <span class="my-foot-text">Code Quiz</span>         
+        </div>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script scr="./assets/js/script.js"></script>
 </body>
 </html>
