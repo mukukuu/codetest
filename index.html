@@ -7,72 +7,81 @@
     <title>Document</title>
     <!--css-->
     <link rel="stylesheet" href="./assets/css/style.css" />
-
+ 
 </head>
 
 <body>
-    <!------------------------timer--------------------->
-    <header class="head1">
-      <div class="show-1">Timer:<span id="timer">60 seconds</span></div>
+    <!------------------------header show scores and time--------------------->
+    <header id="header">
+        <div class="timer-display">
+         <h2>Timer:<span id="timer"></span></h2> 
+        </div>
+        <!--show score btn-->
+        <div class="score-display" id="scores">
+            <button id="show-score" type="button">View High Scores</button>
+        </div>
+        
     </header>
 
-    <!-----------------------start quiz section------------->
-    <section class="quizblock" id="block1">
-       <h2>Final Exam</h2>
-       <p class="ptext">This quiz contains random questions from past modules, please answer all question to avoid penalty, and pay attention to timer.</p>
+    <!----------------------------MAIN------------------------->
+    <main>
 
+    <!-----------------------start quiz section------------->
+    <section class="quizblock" id="startpage">
+       <h2>Code Quiz</h2>
+       <p class="ptext">This quiz contains random questions from past modules, please answer all question to avoid penalty, and pay attention to timer.</p>
        <!--button to start quizz-->
-       <button type="button" id="start-btn"> Take quiz </button>
+       <button type="submit" id="start-btn"> Take quiz </button>
     </section>
 
     <!---------------------------questions-------------->
-    <section class="Qsheet" id="quiz">
-        <h2 class="title" id="question"></h2>
-         <!--list of answers-->
-         <form class="Aform" id="answers">
-             <div class="answer">
-               <button type="button" class="btn Abtn btnstye btntext" id="0"></button>
-             </div>
+    <section  id="quizpage">
+        <h2 class="title" id="question">
+            Start Quiz
+        </h2>
+        <label>Click to start</label>
+        <button  id="start-quiz">Start</button>
 
-             <div class="answer">
-                <button type="button" class="btn Abtn btnstye btntext" id="1"></button>  
-            </div>
+    </section>
 
-            <div class="answer">
-                <button type="button" class="btn Abtn btnstye btntext" id="2"></button>
-            </div>
+       <!----------------show after quiz-------------->
+<section class="highscore" id="scores">
+     <!-- user input for initials and then submit-->
+     <div class="userinput" id="inputs">
+         <h2>Quiz End</h2>
+          <p class="font"> Your Score is: <span id="score"></span></p>
+          <p class="font">
+           Enter initials <input placeholder="initials" type="text" id="initials">
+          <!--submit btn-->
+          <button type="button" class="Sbtn" id="submit">submit</button>
+          </p>
+    </div>
 
-            <div class="answer">
-                <button type="button" class="btn Abtn btnstye btntext" id="3"></button>
-            </div>
+    <!----show high scores and btns to return and clear----->
+     <div>
+          <h2 class="title">HighScores</h2>
+          <div class="hscore" id="HighScores">
+          <!--generate by js-->
+            <ol id="score-list">
 
-            
-         </form>
-
-         <!------------submit---------->
-         <section class="container" id="scores">
-            <h2 class="title">HighScores</h2>
-            <div class="textcontent submit-text"></div>
-        <!--input-->
-        <p class="textcontent">
-        <input type="text" id="initials">
-        </p>
-
-        <!--return btn-->
-        <botton type="button" class="return-btn" id="return">return</botton>
-        <button type="button" class="clear-btn" id="clear"></button>
-        <!--Clear Scores-->
-         </section>
+            </ol>
+          </div> 
+          <!--return btn-->
+          <botton type="button" class="Sbtn" id="return">return</botton>
+          <!--Clear Scores btn-->
+          <button type="button" class="Sbtn" id="clear">clear</button>        
+    </div>
+ </section>
         
-        
+    </main>
        
 
 
-
-
-
    <!--java-->
-    <script scr="./assets/js/script.js"></script>
+   
+  
+   
     <script src="./assets/js/questions.js"></script>
+    <script scr="./assets/js/script.js"></script>
 </body>
 </html>
