@@ -146,26 +146,3 @@ e.stopPropagation();
 }
 
 
-//--------- next question function
-
-
-
-// //star timer----------------------------
-// var start = function() {
-//     quiztime = 80;
-//    document.getElementById("timer").innerHTML = quiztime;
-
-//     timer = setInterval(function() {
-//         quiztime--;
-//     document.getElementById("#timer").innerHTML = quiztime;
-//         if(quiztime <= 0) {
-//             clearInterval(timer);
-//             // endQuiz();
-//         }
-//     }, 1000);
-//     // nextQuestion();
-  
-// }
-
-// timeEl.addEventListener("submit",start);
-
