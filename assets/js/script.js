@@ -192,3 +192,63 @@ let buttonId = uniqueId(ans);
 
 
 
+//-----------function to render previous questions
+function prevQuest(){
+
+//  remove previous answer options
+resetQuestions()
+let qi = -1;
+questionState(qi)
+
+$(questionPrompt).text(randQuestions[questionIndex].question);
+
+questions[questionIndex].options.forEach(ans => {
+
+let button = $("<button>")
+
+// add id
+let buttonId = uniqueId(ans);
+
+ $(button).addClass('btn btn-outline-dark btn-block chosen');
+// add id to btn
+$(button).attr("id", buttonId);
+$(button).text(ans);
+
+$("#answer-buttons").append(button);
+})
+
+prevAnsStyle()
+
+if(questionIndex == 0) {
+
+$(prevButton).addClass('hide');
+    }
+
+if(questionIndex < 4) {
+$(nextButton).removeClass('hide');
+$(submitButton).addClass('hide');
+    }
+}
+
+
+//-------------------function to render style
+function prevAnsStyle() {
+    if(userAnswers[questionIndex] != "") {
+        
+        let prevAnsId = uniqueId(userAnswers[questionIndex])
+            //----id for correct one
+        let ansId = uniqueId(questions[questionIndex].answer);
+
+        // stylings for right and wrong answers 
+        if(prevAnsId == ansId) {
+
+            // if the answer was correct, then show green styling
+            $('#'+prevAnsId).addClass('btn-success');
+
+        }else{
+            // else, then show previous red styling
+            $('#'+prevAnsId).addClass('btn-danger'); 
+        }
+    }
+}
+
