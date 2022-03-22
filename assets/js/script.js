@@ -138,7 +138,7 @@ $('#'+e.target.id).addClass('btn-danger');
 $('#'+e.target.id).removeClass('btn-outline-dark');
 
 // minus 30 seconds off the clock
-    secondsLeft -= 30;
+    timeremain -= 30;
 }
 }
 e.stopPropagation();
@@ -148,7 +148,7 @@ e.stopPropagation();
 //----------------------function to get to next question
 function nextQuest(){
 //  remove previous multiple choise answer
-resetQuestions()
+resetQ()
 
 let qi = 1;
 
@@ -196,7 +196,7 @@ let buttonId = uniqueId(ans);
 function prevQuest(){
 
 //  remove previous answer options
-resetQuestions()
+resetQ()
 let qi = -1;
 questionState(qi)
 
@@ -251,4 +251,227 @@ function prevAnsStyle() {
         }
     }
 }
+
+function results() {
+
+    userScore = ((userCorrect/userAnswers.length) * 100).toFixed(1);
+
+    resetQ()
+
+    var resultDiv = $("<div>");
+    var lineDiv = $("<div>"); 
+    var brk = $("<br/>");
+    var scoreHist = $("<ul>");
+    var formSave = $("<div>");
+    var formLable = $("<label>");
+    var formInput = $("<input>");
+    var formSmall = $("<small>");
+    var formBtns = $("<div>");
+    var formSaveBtn = $("<button>");
+    var formRetryBtn =  $("<button>");
+    var formClearBtn =  $("<button>");
+
+//------------------------------------------assignment 
+    // add classes
+    $(resultDiv).addClass('card-title');
+    $(lineDiv).addClass('line');
+    $(scoreHist).addClass('list-group list-group-flush hide');
+    $(formSave).addClass('form-group');
+
+    $(scoreHist).attr("id", "score-hist");
+
+    // show user's current score
+    $(resultDiv).text("Your Score: " + userScore + "%");
+    $(scoreHist).text("Score History:");
+
+    $("#quiz-container").append(resultDiv,lineDiv,brk,scoreHist,formSave,formBtns);
+
+    // add classes to style the results section from elements
+    $(formInput).addClass('form-control');
+    $(formSmall).addClass('form-text text-muted');
+    //
+    $(formBtns).addClass('form-grp-btns');
+
+    // add attributes the form countrols 
+    $(formSave).attr("id", "form-save-score");
+    $(formInput).attr("placeholder", "Your Initials");
+    $(formBtns).attr("id", "form-control-btn");
+    $(formInput).attr("id", "form-input-init");
+    $(formLable).text("Enter Initials");
+    $(formSmall).text("Click Save to register score");
+
+    // append form in the card-body container
+    $("#form-save-score").append(formLable,formInput,formSmall);
+
+    // add bootstrap classes to the form buttons
+    $(formSaveBtn).addClass('btn btn-outline-dark');
+    $(formRetryBtn).addClass('btn btn-outline-dark');
+    $(formClearBtn).addClass('btn btn-outline-danger hide');
+    
+    // add type attributes for acces
+    $(formSaveBtn).attr("type", "submit");
+    $(formRetryBtn).attr("type", "button");
+    $(formClearBtn).attr("type", "button");
+
+    // add form button controls id
+    $(formSaveBtn).attr("id", "save-btn");
+    $(formRetryBtn).attr("id", "retry-btn");
+    $(formClearBtn).attr("id", "clear-btn");
+
+    // add form button controls names in viewport
+    $(formSaveBtn).text("Save");
+    $(formRetryBtn).text("Retry");
+    $(formClearBtn).text("Clear");
+
+    // append save button 
+    $("#form-control-btn").append(formSaveBtn,formRetryBtn,formClearBtn);
+
+    // event listener on form-save-btn
+    $("#form-control-btn").on('click',formControlHandler);
+
+}
+
+//--------------form handler 
+function formControlHandler(e){
+    
+ if(e.target !== e.currentTarget) {
+
+ if(e.target.id == "save-btn") {
+
+$('#'+e.target.id).addClass('hide');
+            
+ $('#clear-btn').removeClass('hide');
+
+$('#form-save-score').addClass('hide');
+
+//----save data to localstorage
+
+//----arrays
+var results = [];
+var prevResults = [];
+var quizresult = [];
+var userIn = $('#form-input-init').val();
+
+quizresult.push(userScore);
+quizresult.push(timeremain);
+results.push(quizresult);
+
+if (localStorage.getItem(userIn) == null){
+    localStorage.setItem(userIn,JSON.stringify(results));
+    }else{                
+     for( var i = 0; i < localStorage.length; i++) {
+      if(localStorage.key(i) == userIn) { 
+      prevResults = JSON.parse(localStorage.getItem(userIn));
+      prevResults.push(results[0]);
+      results = prevResults;
+      localStorage.setItem(userIn,JSON.stringify(results));
+
+      }
+      }
+      }
+
+// show score history
+$('#score-hist').removeClass('hide');
+for( var i = 0; i < localStorage.length; i++) {
+prevResults = JSON.parse(localStorage.getItem(localStorage.key(i)));
+
+for( var j = 0; j < prevResults.length; j++) {
+resultText = localStorage.key(i) + " -    Score: " + prevResults[j][0] + " -    Time elapsed: " + (120 - prevResults[j][1]) + " sec";
+
+// Create a <li> list item "x"
+var x = $("<li>");
+
+$(x).addClass('list-group-item');   
+$(x).attr("id", "list-item");
+$(x).text(resultText);  
+// Append <li> elements to <ul> 
+$('#score-hist').append(x);
+
+  } 
+  }
+}else if(e.target.id == "retry-btn"){
+
+// reload page 
+location.reload();
+
+ }else if(e.target.id == "clear-btn"){
+
+// clear score history 
+localStorage.clear();
+
+$('#clear-btn').addClass('hide');
+$("#score-hist").text("Score History: Cleared!"); 
+
+   }
+   }  
+    e.stopPropagation();    
+   }
+
+
+// ----------------function to remove previous answer options
+function resetQ() {
+
+if(userScore == "") {
+
+$("#answer-buttons").empty();
+
+ }else {
+
+// stop timer
+starTimer = 0;
+
+$("#quiz-container").empty();
+
+}
+}
+
+
+//----------function to shuffle ( Fisher–Yates Shuffle. 2012. https://bost.ocks.org/mike/shuffle/)
+function shuffle(array) {
+    var m = array.length, t, i;
+    while (m) {
+
+      i = Math.floor(Math.random() * m--);
+      t = array[m];
+      array[m] = array[i];
+      array[i] = t;
+    }
+  
+    return array;
+}
+
+// use the first three char of the option text to create a unique multiple choise options button id selector 
+function uniqueId(str) {
+ let uniqueId = '';
+     for(var i = 0; i < 3; i++) { 
+        uniqueId += str.charAt(i)
+    }
+    return uniqueId;
+}
+
+// timer function
+function timer() {
+
+  var timerInterval = setInterval(function() {
+    if (starTimer > 0){
+        timeremain--;  
+    }
+    // show remaining time
+    document.getElementById("display").value = "" + timeremain + " sec";
+
+    if(timeremain <= 0) {
+
+    if(timeremain < 0) {
+        document.getElementById("display").value = " u suc"
+        
+        }
+    clearInterval(timerInterval);
+    results();
+    }
+}, 1000);
+}
+
+
+timer();
+
 
